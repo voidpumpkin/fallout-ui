@@ -1,0 +1,21 @@
+# Reference https://github.com/thedodd/trunk/blob/master/Trunk.toml
+
+[tools]
+# Default dart-sass version to download.
+sass = "1.43.4"
+
+[watch]
+# Paths to watch. The `build.target`'s parent folder is watched by default.
+watch = [
+    "index.html",
+    "src",
+    "styles",
+    "static",
+    "../fallout-ui",
+    "../fallout-ui-macro"
+]
+
+[[hooks]]
+stage = "build"
+command = "sh"
+command_arguments = ["-c", "tailwindcss -c tailwind.config.js -o $TRUNK_STAGING_DIR/tailwind.css"]

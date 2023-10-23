@@ -1,0 +1,5 @@
+# demo-app
+
+```
+trunk serve
+```

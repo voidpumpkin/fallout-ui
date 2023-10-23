@@ -1,0 +1,63 @@
+[package]
+name = "fallout-ui"
+version = "0.1.0"
+authors = ["voidpumpkin <32368314+voidpumpkin@users.noreply.github.com>"]
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+clone-on-capture = { workspace = true }
+fallout-ui-macro = { workspace = true }
+chrono = { workspace = true, features = ["wasmbind"] }
+convert_case = { workspace = true }
+http = { workspace = true }
+js-sys = { workspace = true }
+lazy_static = { workspace = true }
+log = { workspace = true }
+rand = { workspace = true }
+getrandom = { workspace = true, features = ["js"] }
+regex = { workspace = true }
+isocountry = { workspace = true }
+serde = { workspace = true, features = ["derive"] }
+serde_json = { workspace = true }
+serde_qs = { workspace = true }
+strum = { workspace = true, features = ["derive"] }
+uuid = { workspace = true, features = ["wasm-bindgen"] }
+velcro = { workspace = true }
+validator = { workspace = true, features = ["derive", "phone"] }
+wasm-bindgen = { workspace = true, features = ["std"] }
+wasm-bindgen-futures = { workspace = true }
+web-sys = { workspace = true, features = [
+    "Blob",
+    "console",
+    "Document",
+    "DomStringMap",
+    "Element",
+    "Event",
+    "EventTarget",
+    "File",
+    "FileList",
+    "Headers",
+    "History",
+    "HtmlAnchorElement",
+    "HtmlElement",
+    "HtmlInputElement",
+    "HtmlSelectElement",
+    "HtmlTextAreaElement",
+    "InputEvent",
+    "Request",
+    "RequestInit",
+    "Response",
+    "Url",
+    "Window",
+    "CustomEvent",
+    "CustomEventInit",
+] }
+yew = { workspace = true, features = ["csr"] }
+yew-router = { workspace = true }
+yew_heroicons = { workspace = true }
+gloo = { workspace = true }
+
+[dev-dependencies]
+wasm-bindgen-test = { workspace = true }

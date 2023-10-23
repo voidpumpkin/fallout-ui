@@ -1,0 +1,47 @@
+[workspace]
+members = ["demo-app", "fallout-ui", "fallout-ui-macro"]
+
+[profile.dev]
+debug = 0
+
+[profile.release]
+# optimize wasm for small binary
+opt-level = 'z'
+
+[workspace.dependencies]
+fallout-ui = { path = "fallout-ui" }
+fallout-ui-macro = { path = "fallout-ui-macro" }
+clone-on-capture = { git = "https://github.com/voidpumpkin/clone-on-capture.git", rev = "c18ee70" }
+base64 = "~0.13.0"
+chrono = "0.4.19"
+convert_case = "0.5.0"
+data-encoding = "~2.3.2"
+getrandom = "0.2"
+gloo = "0.8"
+google-authenticator = { version = "0.3.0", default-features = false }
+http = "0.2.4"
+isocountry = "0.3.2"
+itertools = "0.11.0"
+js-sys = "0.3.54"
+lazy_static = "~1.4"
+log = "0.4.14"
+percent-encoding = "2.2.0"
+proc-macro2 = "1.0.43"
+quote = "1"
+rand = "~0.8.5"
+regex = "1.6.0"
+serde = "1"
+serde_json = "1"
+serde_qs = "0.10"
+strum = "0.22"
+syn = "1"
+uuid = "1"
+validator = "0.16.0"
+velcro = "~0.5.3"
+wasm-bindgen = "=0.2.83"
+wasm-bindgen-futures = "=0.4.33"
+wasm-bindgen-test = "=0.3.28"
+web-sys = "=0.3.60"
+yew = "0.20.0"
+yew_heroicons = "0.3.0"
+yew-router = "0.17.0"
