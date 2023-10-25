@@ -7,5 +7,5 @@ where
     F: FnOnce(&D) -> T,
     D: 'static + PartialEq,
 {
-    use_memo(f, deps).as_ref().clone()
+    use_memo(deps, f).as_ref().clone()
 }

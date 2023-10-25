@@ -13,7 +13,11 @@ pub struct Props {
 
 #[function_component]
 pub fn PrimaryAnchor(props: &Props) -> Html {
-    let Props { class, children, href } = props.clone();
+    let Props {
+        class,
+        children,
+        href,
+    } = props.clone();
 
     let class = use_primary_link_logic(class);
 

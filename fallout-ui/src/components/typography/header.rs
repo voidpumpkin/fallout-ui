@@ -8,7 +8,6 @@ pub struct Props {
     pub color_class: String,
     #[prop_or_default]
     pub class: Classes,
-    #[prop_or_default]
     pub children: Children,
 }
 

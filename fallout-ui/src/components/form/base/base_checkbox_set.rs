@@ -63,7 +63,11 @@ pub fn BaseCheckboxSet(props: &Props) -> Html {
         html! { <BaseCheckboxInput label={option.clone()} {checked} {disabled} onchange={handle_on_change} {data_qa}/> }
     });
 
-    let legend = if required { format!("{legend}*") } else { legend };
+    let legend = if required {
+        format!("{legend}*")
+    } else {
+        legend
+    };
 
     html! {
          <>

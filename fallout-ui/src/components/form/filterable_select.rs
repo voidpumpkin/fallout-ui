@@ -19,15 +19,18 @@ pub struct Props<O: Clone + core::fmt::Debug + PartialEq + ToString + 'static> {
 
 #[clone_on_capture]
 #[function_component]
-pub fn FilterableSelect<O: Clone + core::fmt::Debug + PartialEq + ToString + 'static = String>(props: &Props<O>) -> Html {
+pub fn FilterableSelect<O: Clone + core::fmt::Debug + PartialEq + ToString + 'static = String>(
+    props: &Props<O>,
+) -> Html {
     let Props {
         label,
-        field_control_props: FieldControlProps {
-            value,
-            error,
-            onchange,
-            onblur,
-        },
+        field_control_props:
+            FieldControlProps {
+                value,
+                error,
+                onchange,
+                onblur,
+            },
         options,
         required,
         disabled,

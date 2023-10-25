@@ -21,12 +21,13 @@ pub struct Props {
 pub fn I64Input(props: &Props) -> Html {
     let Props {
         label,
-        field_control_props: FieldControlProps {
-            value,
-            error,
-            onchange,
-            onblur,
-        },
+        field_control_props:
+            FieldControlProps {
+                value,
+                error,
+                onchange,
+                onblur,
+            },
         disabled,
         required,
         tip,
@@ -36,7 +37,11 @@ pub fn I64Input(props: &Props) -> Html {
     let handle_input = {
         let onchange = onchange.clone();
         Callback::from(move |(value, _): (String, _)| {
-            let value = value.trim_start().chars().filter(|c| c.is_numeric()).collect::<String>();
+            let value = value
+                .trim_start()
+                .chars()
+                .filter(|c| c.is_numeric())
+                .collect::<String>();
             onchange.emit(value);
         })
     };

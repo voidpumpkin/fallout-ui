@@ -50,12 +50,13 @@ impl From<EnabledOrAll> for Option<bool> {
 pub fn EnabledOrAllSelect(props: &Props) -> Html {
     let Props {
         label,
-        field_control_props: FieldControlProps {
-            value,
-            error,
-            onchange,
-            onblur,
-        },
+        field_control_props:
+            FieldControlProps {
+                value,
+                error,
+                onchange,
+                onblur,
+            },
         required,
         disabled,
         class,
@@ -64,12 +65,9 @@ pub fn EnabledOrAllSelect(props: &Props) -> Html {
     let options = use_memo_owned(|_| EnabledOrAll::iter().collect::<Vec<_>>(), ());
     let value: EnabledOrAll = use_memo_owned(|value| (*value).into(), value);
 
-    let onchange = use_callback(
-        move |selected_value: EnabledOrAll, onchange| {
-            onchange.emit(selected_value.into());
-        },
-        onchange,
-    );
+    let onchange = use_callback(onchange, move |selected_value: EnabledOrAll, onchange| {
+        onchange.emit(selected_value.into());
+    });
 
     html! {
         <FilterableSelect<EnabledOrAll>

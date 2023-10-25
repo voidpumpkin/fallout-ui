@@ -13,7 +13,9 @@ pub fn window() -> JsResult<Window> {
     Ok(global().dyn_into()?)
 }
 pub fn document() -> JsResult<Document> {
-    window()?.document().ok_or_else(|| JsError::new("window.document is None"))
+    window()?
+        .document()
+        .ok_or_else(|| JsError::new("window.document is None"))
 }
 pub fn history_go_back() -> JsResult<()> {
     Ok(window()?.history()?.back()?)
@@ -28,8 +30,13 @@ pub fn reload_spa() -> JsResult<()> {
     Ok(window()?.location().reload()?)
 }
 pub fn get_event_target_data(event: &JsValue, key: &str) -> JsResult<String> {
-    let e: &Event = event.dyn_ref().ok_or_else(|| JsError::new("Provided Event is None"))?;
-    let target: HtmlElement = e.target().ok_or_else(|| JsError::new("Provided Event has no target"))?.dyn_into()?;
+    let e: &Event = event
+        .dyn_ref()
+        .ok_or_else(|| JsError::new("Provided Event is None"))?;
+    let target: HtmlElement = e
+        .target()
+        .ok_or_else(|| JsError::new("Provided Event has no target"))?
+        .dyn_into()?;
     let dataset = target
         .dataset()
         .get(key)

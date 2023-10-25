@@ -33,11 +33,16 @@ fn validate_minion_names(minion_names: &MultipleValues) -> Result<(), Validation
     let field_errors = minion_names
         .iter()
         .enumerate()
-        .map(|(i, name)| (name.len() < 2 && minion_names.len() - 1 != i).then(|| "min length 2".to_string()))
+        .map(|(i, name)| {
+            (name.len() < 2 && minion_names.len() - 1 != i).then(|| "min length 2".to_string())
+        })
         .collect::<Vec<Option<String>>>();
 
     if field_errors.iter().any(|err| err.is_some()) {
-        let errs_json: String = match serde_json::to_string(&MultipleWordsInputError { error: None, field_errors }) {
+        let errs_json: String = match serde_json::to_string(&MultipleWordsInputError {
+            error: None,
+            field_errors,
+        }) {
             Ok(errs_json) => errs_json,
             Err(serde_err) => {
                 notify_err(web_err_logic(serde_err));
@@ -68,16 +73,15 @@ fn validate_bad_minions(bad_minions: &MultipleValues) -> Result<(), ValidationEr
 
 #[function_component]
 pub fn MultipleWordsInputStory() -> Html {
-    let (form_handle, fields_control_props) = use_form_schema(|| FormSchemaHandle::new(FormSchema::default()));
-    let (form_handle_2, fields_control_props_2) = use_form_schema_2(|| FormSchemaHandle::new(FormSchema2::default()));
+    let (form_handle, fields_control_props) =
+        use_form_schema(|| FormSchemaHandle::new(FormSchema::default()));
+    let (form_handle_2, fields_control_props_2) =
+        use_form_schema_2(|| FormSchemaHandle::new(FormSchema2::default()));
 
-    use_effect_with_deps(
-        move |_| {
-            form_handle_2.dispatch(FormSchema2Action::TouchAll);
-            || {}
-        },
-        (),
-    );
+    use_effect_with((), move |_| {
+        form_handle_2.dispatch(FormSchema2Action::TouchAll);
+        || {}
+    });
 
     let on_submit = move |_| {
         form_handle.dispatch(FormSchemaAction::TouchAll);

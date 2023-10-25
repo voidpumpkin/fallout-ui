@@ -22,22 +22,25 @@ pub type MCCCodes = Vec<[String; 2]>;
 pub fn MCCInput(props: &Props) -> Html {
     let Props {
         label,
-        field_control_props: FieldControlProps {
-            value,
-            error,
-            onchange,
-            onblur,
-        },
+        field_control_props:
+            FieldControlProps {
+                value,
+                error,
+                onchange,
+                onblur,
+            },
         mcc_codes,
         required,
         disabled,
         container_class,
     } = props.clone();
 
-    let mcc_codes_rc = use_memo(
-        move |mcc_codes| mcc_codes.iter().map(|v| v[1].clone()).collect::<Vec<String>>(),
-        mcc_codes,
-    );
+    let mcc_codes_rc = use_memo(mcc_codes, move |mcc_codes| {
+        mcc_codes
+            .iter()
+            .map(|v| v[1].clone())
+            .collect::<Vec<String>>()
+    });
     let mcc_codes: Vec<String> = (*mcc_codes_rc).clone();
 
     let handle_select = {

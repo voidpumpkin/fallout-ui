@@ -20,7 +20,12 @@ pub fn BaseMultiSelectStory() -> Html {
         value_handle.set(s);
     };
 
-    let options = vec!["Cat".to_string(), "Dolphin".to_string(), "Dog".to_string(), "Seal".to_string()];
+    let options = vec![
+        "Cat".to_string(),
+        "Dolphin".to_string(),
+        "Dog".to_string(),
+        "Seal".to_string(),
+    ];
 
     let mut big_options = vec![];
     big_options.append(&mut options.clone());

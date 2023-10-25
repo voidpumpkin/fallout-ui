@@ -37,7 +37,10 @@ impl JsError {
 impl Debug for JsError {
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         self.log_js_value();
-        f.debug_struct("JsError").field("js", &self.js).field("id", &self.id).finish()
+        f.debug_struct("JsError")
+            .field("js", &self.js)
+            .field("id", &self.id)
+            .finish()
     }
 }
 

@@ -23,15 +23,20 @@ pub struct Props<O: Clone + core::fmt::Debug + PartialEq + ToString + 'static> {
 }
 
 #[function_component]
-pub fn FilterableNullableSelect<O: Clone + core::fmt::Debug + PartialEq + ToString + 'static = String>(props: &Props<O>) -> Html {
+pub fn FilterableNullableSelect<
+    O: Clone + core::fmt::Debug + PartialEq + ToString + 'static = String,
+>(
+    props: &Props<O>,
+) -> Html {
     let Props {
         label,
-        field_control_props: FieldControlProps {
-            value,
-            error,
-            onchange,
-            onblur,
-        },
+        field_control_props:
+            FieldControlProps {
+                value,
+                error,
+                onchange,
+                onblur,
+            },
         options,
         tip,
         required,

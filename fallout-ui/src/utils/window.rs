@@ -11,7 +11,9 @@ pub fn window() -> WebResult<Window> {
 }
 
 pub fn get_window_inner_width() -> WebResult<i32> {
-    let width: i32 = js::get_window_inner_width()?.into_serde().map_err(web_err_logic)?;
+    let width: i32 = js::get_window_inner_width()?
+        .into_serde()
+        .map_err(web_err_logic)?;
     Ok(width)
 }
 

@@ -109,6 +109,7 @@ where
     let all_options = options.clone();
 
     let selection_amount_text = use_memo(
+        (value.len(), options.len(), selection_amount_text.clone()),
         move |(values_len, options_len, _)| {
             selection_amount_text.emit((
                 *values_len,
@@ -116,7 +117,6 @@ where
                 get_default_selection_amount_text((*values_len, *options_len)),
             ))
         },
-        (value.len(), options.len(), selection_amount_text),
     );
 
     let input_value_handle = use_state_eq(String::default);

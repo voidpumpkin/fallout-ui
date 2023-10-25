@@ -31,16 +31,13 @@ pub fn use_date_time_clock() -> String {
     let now_reducer_handle = use_reducer(NowDateTimeReducer::default);
     let now = now_reducer_handle.now.clone();
 
-    use_effect_with_deps(
-        move |_| {
-            now_reducer_handle.dispatch(());
+    use_effect_with((), move |_| {
+        now_reducer_handle.dispatch(());
 
-            let interval = Interval::new(1_000, move || now_reducer_handle.dispatch(()));
+        let interval = Interval::new(1_000, move || now_reducer_handle.dispatch(()));
 
-            move || drop(interval)
-        },
-        (),
-    );
+        move || drop(interval)
+    });
 
     now
 }

@@ -84,31 +84,27 @@ pub fn BaseFilterableNullableSelect<O: Clone + Debug + PartialEq + ToString + 's
     });
     let input_value_on_list_close = input_value_on_list_close_handle.deref().clone();
 
-    use_effect_with_deps(
-        {
-            let input_value_on_list_close_handle = input_value_on_list_close_handle.clone();
-            let input_value_handle = input_value_handle.clone();
-            let value = value.clone();
-            move |_| {
-                match value {
-                    Some(value) => {
-                        let value_string = value.to_string();
-                        if &value_string != input_value_handle.deref() {
-                            input_value_handle.set(value_string.clone());
-                            input_value_on_list_close_handle.set(Some(value_string));
-                        }
-                    }
-                    None => {
-                        input_value_handle.set(String::default());
-                        input_value_on_list_close_handle.set(None);
+    use_effect_with(value.clone(), {
+        let input_value_on_list_close_handle = input_value_on_list_close_handle.clone();
+        let input_value_handle = input_value_handle.clone();
+        move |_| {
+            match value {
+                Some(value) => {
+                    let value_string = value.to_string();
+                    if &value_string != input_value_handle.deref() {
+                        input_value_handle.set(value_string.clone());
+                        input_value_on_list_close_handle.set(Some(value_string));
                     }
                 }
-
-                || {}
+                None => {
+                    input_value_handle.set(String::default());
+                    input_value_on_list_close_handle.set(None);
+                }
             }
-        },
-        value,
-    );
+
+            || {}
+        }
+    });
 
     let hovered_value_handle = use_state(Option::<O>::default);
     let hovered_value = hovered_value_handle.deref().clone();

@@ -52,7 +52,12 @@ pub fn DangerButton(props: &Props) -> Html {
         } else if loading {
             classes!("px-7", "bg-washed-out-danger", "cursor-progress")
         } else {
-            classes!("px-10", "bg-danger", "hover:bg-reacting-danger", "cursor-pointer")
+            classes!(
+                "px-10",
+                "bg-danger",
+                "hover:bg-reacting-danger",
+                "cursor-pointer"
+            )
         },
         class
     );

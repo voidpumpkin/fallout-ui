@@ -7,5 +7,5 @@ where
     F: 'static + FnMut(),
     D: 'static + PartialEq,
 {
-    use_memo(move |_| timers::callback::Interval::new(millis, func), deps);
+    use_memo(deps, move |_| timers::callback::Interval::new(millis, func));
 }

@@ -7,26 +7,17 @@ pub fn use_modal(default_value: bool) -> (bool, Callback<()>, Callback<()>, Call
 
     let is_open_setter = is_open_handle.setter();
 
-    let set_is_open = use_callback(
-        |new_val, is_open_setter| {
-            is_open_setter.set(new_val);
-        },
-        is_open_setter.clone(),
-    );
+    let set_is_open = use_callback(is_open_setter.clone(), |new_val, is_open_setter| {
+        is_open_setter.set(new_val);
+    });
 
-    let close = use_callback(
-        move |_, set_is_open| {
-            set_is_open.set(false);
-        },
-        is_open_setter.clone(),
-    );
+    let close = use_callback(is_open_setter.clone(), move |_, set_is_open| {
+        set_is_open.set(false);
+    });
 
-    let open = use_callback(
-        |_, is_open_setter| {
-            is_open_setter.set(true);
-        },
-        is_open_setter,
-    );
+    let open = use_callback(is_open_setter, |_, is_open_setter| {
+        is_open_setter.set(true);
+    });
 
     (is_open, open, close, set_is_open)
 }

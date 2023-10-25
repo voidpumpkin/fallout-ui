@@ -29,12 +29,13 @@ pub struct Props {
 pub fn FileInput(props: &Props) -> Html {
     let Props {
         label,
-        field_control_props: FieldControlProps {
-            error,
-            onchange,
-            onblur,
-            value,
-        },
+        field_control_props:
+            FieldControlProps {
+                error,
+                onchange,
+                onblur,
+                value,
+            },
         tip,
         required,
         disabled,
@@ -44,19 +45,18 @@ pub fn FileInput(props: &Props) -> Html {
 
     let input_ref = use_node_ref();
 
-    use_effect_with_deps(
-        move |value: &Option<_>| {
-            if value.is_none() {
-                if let Some(input_element) = input_ref.cast::<HtmlInputElement>() {
-                    if let Err(err) = js_sys::Reflect::set(&input_element, &"value".into(), &JsValue::NULL) {
-                        notify_err(web_err_js(err));
-                    }
+    use_effect_with(value.clone(), move |value: &Option<_>| {
+        if value.is_none() {
+            if let Some(input_element) = input_ref.cast::<HtmlInputElement>() {
+                if let Err(err) =
+                    js_sys::Reflect::set(&input_element, &"value".into(), &JsValue::NULL)
+                {
+                    notify_err(web_err_js(err));
                 }
             }
-            || {}
-        },
-        value.clone(),
-    );
+        }
+        || {}
+    });
 
     html! {
         <BaseFileInput

@@ -48,5 +48,7 @@ impl UseLoadingCountHandle {
 #[hook]
 pub fn use_loading_count() -> UseLoadingCountHandle {
     let counter_state_handle = use_reducer(CounterState::default);
-    UseLoadingCountHandle { counter_state_handle }
+    UseLoadingCountHandle {
+        counter_state_handle,
+    }
 }

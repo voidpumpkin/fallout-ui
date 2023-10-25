@@ -9,6 +9,7 @@ use crate::utils::toasts::notify_err;
 pub struct Props {
     pub label: String,
     pub on_change: Callback<Option<File>>,
+    #[prop_or_default]
     pub file_name: Option<String>,
     #[prop_or_default]
     pub required: bool,

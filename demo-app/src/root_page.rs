@@ -31,7 +31,7 @@ pub fn RootPage() -> Html {
 
             html! {
                 <>
-                    <Header class="mt-2">{group}</Header>
+                    <Header class="mt-2">{group.to_string()}</Header>
                     <ul class="my-2">{story_links}</ul>
                 </>
             }

@@ -46,12 +46,13 @@ pub struct Props {
 pub fn FileContentInput(props: &Props) -> Html {
     let Props {
         label,
-        field_control_props: FieldControlProps {
-            error,
-            onchange,
-            onblur,
-            value,
-        },
+        field_control_props:
+            FieldControlProps {
+                error,
+                onchange,
+                onblur,
+                value,
+            },
         required,
         disabled,
         tip,
@@ -103,40 +104,39 @@ pub fn FileContentInput(props: &Props) -> Html {
         })
     };
 
-    use_effect_with_deps(
-        {
-            let input_ref = input_ref.clone();
-            let value = value.clone();
-            move |_| {
-                if value.file_name.is_some() {
-                    onchange.emit(FileContent {
-                        loading: true,
-                        ..value.clone()
-                    });
-                    match upload_file(&input_ref, upload_callback) {
-                        Ok(reader) => {
-                            file_reader_handle.set(Some(reader));
-                        }
-                        Err(err) => {
-                            onchange.emit(FileContent {
-                                loading: false,
-                                file_name: None,
-                                ..value.clone()
-                            });
-                            notify_err(err);
-                            file_reader_handle.set(None);
-                        }
+    use_effect_with(value.file_name.clone(), {
+        let input_ref = input_ref.clone();
+        let value = value.clone();
+        move |_| {
+            if value.file_name.is_some() {
+                onchange.emit(FileContent {
+                    loading: true,
+                    ..value.clone()
+                });
+                match upload_file(&input_ref, upload_callback) {
+                    Ok(reader) => {
+                        file_reader_handle.set(Some(reader));
                     }
-                } else if let Some(input_element) = input_ref.cast::<HtmlInputElement>() {
-                    if let Err(err) = js_sys::Reflect::set(&input_element, &"value".into(), &JsValue::NULL) {
-                        notify_err(web_err_js(err));
+                    Err(err) => {
+                        onchange.emit(FileContent {
+                            loading: false,
+                            file_name: None,
+                            ..value.clone()
+                        });
+                        notify_err(err);
+                        file_reader_handle.set(None);
                     }
                 }
-                || {}
+            } else if let Some(input_element) = input_ref.cast::<HtmlInputElement>() {
+                if let Err(err) =
+                    js_sys::Reflect::set(&input_element, &"value".into(), &JsValue::NULL)
+                {
+                    notify_err(web_err_js(err));
+                }
             }
-        },
-        value.file_name.clone(),
-    );
+            || {}
+        }
+    });
 
     let file_name = value.file_name;
 

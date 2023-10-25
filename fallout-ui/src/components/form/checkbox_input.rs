@@ -17,7 +17,9 @@ pub struct Props {
 pub fn CheckboxInput(props: &Props) -> Html {
     let Props {
         label,
-        field_control_props: FieldControlProps { value, onchange, .. },
+        field_control_props: FieldControlProps {
+            value, onchange, ..
+        },
         disabled,
         label_class,
     } = props.clone();

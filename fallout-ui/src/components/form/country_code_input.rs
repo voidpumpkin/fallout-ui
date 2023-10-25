@@ -53,12 +53,13 @@ impl ToString for CountryCodeSelectOption {
 pub fn CountryCodeInput(props: &Props) -> Html {
     let Props {
         label,
-        field_control_props: FieldControlProps {
-            value,
-            error,
-            onchange,
-            onblur,
-        },
+        field_control_props:
+            FieldControlProps {
+                value,
+                error,
+                onchange,
+                onblur,
+            },
         container_class,
         required,
         disabled,
@@ -67,14 +68,11 @@ pub fn CountryCodeInput(props: &Props) -> Html {
 
     let value = value.map(|v| v.to_string()).unwrap_or_default();
 
-    let country_codes_rc = use_memo(
-        move |_| {
-            CountryCode::iter()
-                .map(|c| CountryCodeSelectOption(*c).to_string())
-                .collect::<Vec<String>>()
-        },
-        (),
-    );
+    let country_codes_rc = use_memo((), move |_| {
+        CountryCode::iter()
+            .map(|c| CountryCodeSelectOption(*c).to_string())
+            .collect::<Vec<String>>()
+    });
     let country_codes: Vec<String> = (*country_codes_rc).clone();
 
     let option_html: Callback<String, Html> = Callback::from(|option: String| -> Html {

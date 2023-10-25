@@ -10,7 +10,10 @@ use super::use_is_first_mount;
 #[macro_export]
 macro_rules! use_debug_change {
     ($var:expr) => {
-        $crate::hooks::use_debug_change_inner(format!("{}:{}: {}", file!(), line!(), stringify!($var)), $var)
+        $crate::hooks::use_debug_change_inner(
+            format!("{}:{}: {}", file!(), line!(), stringify!($var)),
+            $var,
+        )
     };
 }
 
@@ -29,7 +32,8 @@ where
 
     let is_first_mount = use_is_first_mount();
 
-    use_effect_with_deps(
+    use_effect_with(
+        changing_variable.clone(),
         move |changing_variable: &Rc<T>| {
             if !is_first_mount {
                 log::debug!(
@@ -40,6 +44,5 @@ where
                 );
             }
         },
-        changing_variable,
     );
 }

@@ -36,7 +36,9 @@ const HASHMAP_NOT_SUPPORTED: &str = "HashMaps are not supported, use BTreeMap In
 
 pub fn form_fields_impl(input: DeriveInput) -> Result<proc_macro2::TokenStream> {
     let DeriveInput {
-        ident: FormSchema, data, ..
+        ident: FormSchema,
+        data,
+        ..
     } = input;
 
     let Data::Struct(DataStruct { fields, .. }) = data else {
@@ -66,9 +68,14 @@ pub fn form_fields_impl(input: DeriveInput) -> Result<proc_macro2::TokenStream> 
         .map(|field| field.ident.clone().expect(IS_NOT_NAMED_FIELD))
         .collect();
 
-    let StaticFieldType: Vec<Type> = static_named_fields.iter().map(|field| field.ty.clone()).collect();
+    let StaticFieldType: Vec<Type> = static_named_fields
+        .iter()
+        .map(|field| field.ty.clone())
+        .collect();
 
-    let StaticField: Vec<Ident> = create_idents(&static_field, |field| field.to_string().to_case(Case::Pascal));
+    let StaticField: Vec<Ident> = create_idents(&static_field, |field| {
+        field.to_string().to_case(Case::Pascal)
+    });
 
     let static_literal_field_name: Vec<LitStr> = static_field
         .iter()
@@ -81,9 +88,14 @@ pub fn form_fields_impl(input: DeriveInput) -> Result<proc_macro2::TokenStream> 
         .map(|field| field.ident.clone().expect(IS_NOT_NAMED_FIELD))
         .collect();
 
-    let DynamicField: Vec<Ident> = create_idents(&dynamic_field, |field| field.to_string().to_case(Case::Pascal));
+    let DynamicField: Vec<Ident> = create_idents(&dynamic_field, |field| {
+        field.to_string().to_case(Case::Pascal)
+    });
 
-    let DynamicFieldType: Vec<Type> = dynamic_named_fields.iter().map(|field| field.ty.clone()).collect();
+    let DynamicFieldType: Vec<Type> = dynamic_named_fields
+        .iter()
+        .map(|field| field.ty.clone())
+        .collect();
 
     let dynamic_literal_field_name: Vec<LitStr> = dynamic_field
         .iter()

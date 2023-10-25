@@ -64,48 +64,42 @@ pub fn Modal(props: &Props) -> Html {
         stop_tracking_modal,
     } = use_fallout_context::<ModalTrackingContext>();
 
-    use_effect_with_deps(
-        {
-            let modal_context_id = modal_context_id.clone();
-            move |_| {
-                if show {
-                    *modal_context_id.borrow_mut() = start_tracking_modal.emit(());
-                } else {
-                    stop_tracking_modal.emit(*modal_context_id.borrow_mut());
-                }
-
-                let modal_context_id = modal_context_id.clone();
-                move || stop_tracking_modal.emit(*modal_context_id.borrow_mut())
+    use_effect_with(show, {
+        let modal_context_id = modal_context_id.clone();
+        move |_| {
+            if show {
+                *modal_context_id.borrow_mut() = start_tracking_modal.emit(());
+            } else {
+                stop_tracking_modal.emit(*modal_context_id.borrow_mut());
             }
-        },
-        show,
-    );
+
+            let modal_context_id = modal_context_id.clone();
+            move || stop_tracking_modal.emit(*modal_context_id.borrow_mut())
+        }
+    });
 
     let show = active_modal_id == *modal_context_id.borrow_mut() && show;
 
-    use_memo(
-        move |(on_close, show)| {
-            let on_close = on_close.clone();
+    use_memo((on_close.clone(), show), move |(on_close, show)| {
+        let on_close = on_close.clone();
 
-            if !*show {
-                return None;
+        if !*show {
+            return None;
+        }
+
+        let listener = EventListener::new(&body(), "keydown", move |event| {
+            let keyboard_event: &KeyboardEvent = match event.dyn_ref() {
+                Some(some) => some,
+                None => return notify_err(web_err_logic("event to KeyboardEvent cast failed")),
+            };
+            let key = keyboard_event.key();
+            if key == "Escape" {
+                on_close.emit(());
             }
+        });
 
-            let listener = EventListener::new(&body(), "keydown", move |event| {
-                let keyboard_event: &KeyboardEvent = match event.dyn_ref() {
-                    Some(some) => some,
-                    None => return notify_err(web_err_logic("event to KeyboardEvent cast failed")),
-                };
-                let key = keyboard_event.key();
-                if key == "Escape" {
-                    on_close.emit(());
-                }
-            });
-
-            Some(listener)
-        },
-        (on_close.clone(), show),
-    );
+        Some(listener)
+    });
 
     let modal_root = document()
         .get_element_by_id("modal-root")

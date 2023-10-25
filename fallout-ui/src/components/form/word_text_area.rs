@@ -19,12 +19,13 @@ pub struct Props {
 pub fn WordTextArea(props: &Props) -> Html {
     let Props {
         label,
-        field_control_props: FieldControlProps {
-            value,
-            error,
-            onchange,
-            onblur,
-        },
+        field_control_props:
+            FieldControlProps {
+                value,
+                error,
+                onchange,
+                onblur,
+            },
         required,
         disabled,
         tip,

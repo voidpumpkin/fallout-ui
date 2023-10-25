@@ -12,7 +12,11 @@ pub struct Props {
 
 #[function_component]
 pub fn VerticalDataListRow(props: &Props) -> Html {
-    let Props { name, value, data_qa } = props.clone();
+    let Props {
+        name,
+        value,
+        data_qa,
+    } = props.clone();
 
     html! {
         <tr class="contents">

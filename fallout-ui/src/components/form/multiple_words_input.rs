@@ -87,7 +87,12 @@ impl MultipleValues {
     }
 }
 
-fn transform_values_on_value_change(values: MultipleValues, value: String, focused_id: Option<usize>, input_id: usize) -> Vec<String> {
+fn transform_values_on_value_change(
+    values: MultipleValues,
+    value: String,
+    focused_id: Option<usize>,
+    input_id: usize,
+) -> Vec<String> {
     let mut values = values.into_inner();
     match values.get_mut(input_id) {
         Some(modifiable_value) => {
@@ -97,7 +102,12 @@ fn transform_values_on_value_change(values: MultipleValues, value: String, focus
     }
 
     match focused_id {
-        Some(focused_id) if focused_id == input_id && input_id != values.len().checked_sub(2).unwrap_or_default() => values,
+        Some(focused_id)
+            if focused_id == input_id
+                && input_id != values.len().checked_sub(2).unwrap_or_default() =>
+        {
+            values
+        }
         _ => values.into_iter().filter(|v| !v.is_empty()).collect(),
     }
 }
@@ -121,7 +131,10 @@ pub fn MultipleWordsInput(props: &Props) -> Html {
     let focused_id_handle = use_state(Option::<usize>::default);
     let focused_id = *focused_id_handle;
 
-    let MultipleWordsInputError { error, field_errors } = match error {
+    let MultipleWordsInputError {
+        error,
+        field_errors,
+    } = match error {
         None => MultipleWordsInputError::default_from_field_values(&values),
         Some(errs) => match serde_json::from_str(errs.as_str()) {
             Ok(ok) => ok,
@@ -151,7 +164,12 @@ pub fn MultipleWordsInput(props: &Props) -> Html {
                 let focused_id_handle = focused_id_handle.clone();
 
                 onblur.reform(move |_| {
-                    let values = values.clone().into_inner().into_iter().filter(|v| !v.is_empty()).collect();
+                    let values = values
+                        .clone()
+                        .into_inner()
+                        .into_iter()
+                        .filter(|v| !v.is_empty())
+                        .collect();
                     focused_id_handle.set(None);
                     onchange.emit(values);
                 })
@@ -164,7 +182,10 @@ pub fn MultipleWordsInput(props: &Props) -> Html {
                 Callback::from(move |(value, _): (String, _)| {
                     let value = value.trim_start().to_string();
 
-                    onchange.emit(transform_values_on_value_change(values.clone(), value, focused_id, i).into());
+                    onchange.emit(
+                        transform_values_on_value_change(values.clone(), value, focused_id, i)
+                            .into(),
+                    );
                 })
             };
 
@@ -174,7 +195,10 @@ pub fn MultipleWordsInput(props: &Props) -> Html {
 
                 Callback::from(move |(value, _): (String, _)| {
                     let value = value.trim().to_string();
-                    onchange.emit(transform_values_on_value_change(values.clone(), value, focused_id, i).into());
+                    onchange.emit(
+                        transform_values_on_value_change(values.clone(), value, focused_id, i)
+                            .into(),
+                    );
                 })
             };
 
@@ -196,7 +220,11 @@ pub fn MultipleWordsInput(props: &Props) -> Html {
         })
         .collect();
 
-    let legend: String = if required { format!("{legend}*") } else { legend };
+    let legend: String = if required {
+        format!("{legend}*")
+    } else {
+        legend
+    };
 
     html! {
         <Fieldset {legend} {error}>

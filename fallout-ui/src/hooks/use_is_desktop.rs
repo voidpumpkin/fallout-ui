@@ -25,17 +25,16 @@ pub fn use_is_desktop() -> bool {
     let window_width_handle = use_state_eq(get_window_width);
     let window_width = *window_width_handle;
 
-    use_effect_with_deps(
-        {
-            let window_width_handle = window_width_handle.clone();
-            move |_| {
-                let resize_event_target: EventTarget = window().unwrap_throw().dyn_into().unwrap_throw();
-                let listener = EventListener::new(&resize_event_target, "resize", move |_| window_width_handle.set(get_window_width()));
-                move || drop(listener)
-            }
-        },
-        window_width_handle,
-    );
+    use_effect_with(window_width_handle.clone(), {
+        move |_| {
+            let resize_event_target: EventTarget =
+                window().unwrap_throw().dyn_into().unwrap_throw();
+            let listener = EventListener::new(&resize_event_target, "resize", move |_| {
+                window_width_handle.set(get_window_width())
+            });
+            move || drop(listener)
+        }
+    });
 
     window_width >= 1024
 }

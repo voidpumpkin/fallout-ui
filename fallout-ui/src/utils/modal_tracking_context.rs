@@ -60,6 +60,7 @@ pub fn ModalTrackingContextProvider(props: &Props) -> Html {
     let newest_id = use_mut_ref(|| 0);
 
     let start_tracking_modal = use_memo(
+        tracked_modal_ids_handle.clone(),
         move |tracked_modal_ids_handle| {
             let tracked_modal_ids_handle = tracked_modal_ids_handle.clone();
             Callback::from(move |()| {
@@ -71,18 +72,14 @@ pub fn ModalTrackingContextProvider(props: &Props) -> Html {
                 id
             })
         },
-        tracked_modal_ids_handle.clone(),
     );
 
-    let stop_tracking_modal = use_memo(
-        move |tracked_modal_ids_handle| {
-            let tracked_modal_ids_handle = tracked_modal_ids_handle.clone();
-            Callback::from(move |id: usize| {
-                tracked_modal_ids_handle.dispatch(Action::StopTracking(id));
-            })
-        },
-        tracked_modal_ids_handle,
-    );
+    let stop_tracking_modal = use_memo(tracked_modal_ids_handle, move |tracked_modal_ids_handle| {
+        let tracked_modal_ids_handle = tracked_modal_ids_handle.clone();
+        Callback::from(move |id: usize| {
+            tracked_modal_ids_handle.dispatch(Action::StopTracking(id));
+        })
+    });
 
     let context = ModalTrackingContext {
         active_modal_id,

@@ -36,7 +36,10 @@ impl Display for WebError {
             WebError {
                 kind: WebErrorKind::JsError(_),
                 ..
-            } => write!(f, "We ran into a problem, try refreshing the page or contact our support")?,
+            } => write!(
+                f,
+                "We ran into a problem, try refreshing the page or contact our support"
+            )?,
             WebError {
                 kind: WebErrorKind::LogicError,
                 ..
@@ -105,7 +108,11 @@ impl From<ValidationErrors> for WebError {
             .map(|(field, errors)| {
                 (
                     field.to_string(),
-                    errors.iter().map(ToString::to_string).collect::<Vec<String>>().join(", "),
+                    errors
+                        .iter()
+                        .map(ToString::to_string)
+                        .collect::<Vec<String>>()
+                        .join(", "),
                 )
             })
             .collect();

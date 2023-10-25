@@ -23,9 +23,13 @@ pub struct Props {
 pub fn CheckboxSet(props: &Props) -> Html {
     let Props {
         legend,
-        field_control_props: FieldControlProps {
-            value, error, onchange, ..
-        },
+        field_control_props:
+            FieldControlProps {
+                value,
+                error,
+                onchange,
+                ..
+            },
         required,
         available,
         disabled,
