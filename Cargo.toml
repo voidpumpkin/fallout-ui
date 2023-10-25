@@ -9,13 +9,13 @@ debug = 0
 opt-level = 'z'
 
 [workspace.dependencies]
-fallout-ui = { path = "fallout-ui" }
-fallout-ui-macro = { path = "fallout-ui-macro" }
-clone-on-capture = { git = "https://github.com/voidpumpkin/clone-on-capture.git", rev = "c18ee70" }
 base64 = "~0.13.0"
 chrono = "0.4.19"
+clone-on-capture = { git = "https://github.com/voidpumpkin/clone-on-capture.git", rev = "c18ee70" }
 convert_case = "0.5.0"
 data-encoding = "~2.3.2"
+fallout-ui = { path = "fallout-ui" }
+fallout-ui-macro = { path = "fallout-ui-macro" }
 getrandom = "0.2"
 gloo = "0.8"
 google-authenticator = { version = "0.3.0", default-features = false }
@@ -43,5 +43,5 @@ wasm-bindgen-futures = "=0.4.33"
 wasm-bindgen-test = "=0.3.28"
 web-sys = "=0.3.60"
 yew = "0.20.0"
-yew_heroicons = "0.3.0"
 yew-router = "0.17.0"
+yew_heroicons = "0.3.0"

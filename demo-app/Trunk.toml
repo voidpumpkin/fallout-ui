@@ -15,7 +15,3 @@ watch = [
     "../fallout-ui-macro"
 ]
 
-[[hooks]]
-stage = "build"
-command = "sh"
-command_arguments = ["-c", "tailwindcss -c tailwind.config.js -o $TRUNK_STAGING_DIR/tailwind.css"]
